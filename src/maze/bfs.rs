@@ -62,7 +62,7 @@ impl Bfs for Maze {
         route
     }
 
-    fn bfs_best_route_map(&self, _routes:VecDeque<Posi>) -> String {
+    fn bfs_best_route_map(&self, routes:VecDeque<Posi>) -> String {
         String::from("hoge")
     }
 }
@@ -73,32 +73,22 @@ mod tests {
     use crate::tests::fixture::maze::maze_str;
 
     #[test]
-    fn test_maze_bfs() {
-        let maze_str = maze_str::maze_str1();
-        let maze_vec = Maze::maze_vec_from_string(maze_str);
-        let maze = Maze::new(maze_vec, 'S', 'G', '#');
-        let (dist, prev) = maze.bfs();
-        println!("{:?}", dist);
-        println!("{:?}", prev);
-    }
-
-    #[test]
-    fn test_maze_bfs_route() {
-        let maze_str = maze_str::maze_str1();
-        let maze_vec = Maze::maze_vec_from_string(maze_str);
-        let maze = Maze::new(maze_vec, 'S', 'G', '#');
-        let (_dist, prev) = maze.bfs();
-        println!("{:?}", maze.bfs_route(&prev));
-    }
-
-    #[test]
     fn test_maze_bfs_dist_map() {
         let maze_str = maze_str::maze_str1();
         let maze_vec = Maze::maze_vec_from_string(maze_str);
         let maze = Maze::new(maze_vec, 'S', 'G', '#');
         let (dist, _prev) = maze.bfs();
         let dist_map = maze.bfs_dist_map(&dist);
-        println!("{dist_map}");
+        let ans = r#"09 | #  | 09 | 10 | 11 | 12 | #  | 16 | 
+08 | #  | 08 | #  | 12 | 13 | 14 | 15 | 
+07 | 06 | 07 | #  | 13 | #  | #  | 16 | 
+#  | 05 | #  | #  | 12 | 11 | 10 | #  | 
+03 | 04 | 05 | #  | #  | #  | 09 | #  | 
+02 | #  | 04 | 05 | 06 | 07 | 08 | #  | 
+01 | 02 | 03 | #  | 05 | #  | 07 | 08 | 
+00 | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 
+"#;
+        assert_eq!(dist_map, ans.to_string());
 
     }
 }

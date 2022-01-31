@@ -91,5 +91,10 @@ fn test_maze() {
     "#;
     let maze_vec = Maze::maze_vec_from_string(String::from(maze_str));
     let maze = Maze::new(maze_vec, 'S', 'G', '#');
-    println!("{:?}", maze);
+    assert_eq!(maze.width, 8);
+    assert_eq!(maze.height, 8);
+    assert_eq!(maze.start_posi.row, 7);
+    assert_eq!(maze.start_posi.col, 0);
+    assert_eq!(maze.goal_posi.row, 0);
+    assert_eq!(maze.goal_posi.col, 7);
 }
