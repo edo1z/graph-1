@@ -1,4 +1,4 @@
-use graph::graph::{Graph, bfs::Bfs, dfs::Dfs};
+use graph::graph::{bfs::Bfs, dfs::Dfs, Graph};
 
 fn main() {
     let vertices_num = 6;

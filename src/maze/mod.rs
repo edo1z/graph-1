@@ -1,11 +1,17 @@
+pub mod bfs;
+pub mod dist;
+pub mod posi;
+pub mod prev;
+
+use posi::Posi;
 pub type MazeVec = Vec<Vec<char>>;
 
 #[derive(Debug)]
 pub struct Maze {
-    pub width: usize,
-    pub height: usize,
-    pub start: Vec<usize>,
-    pub goal: Vec<usize>,
+    pub width: i64,
+    pub height: i64,
+    pub start_posi: Posi,
+    pub goal_posi: Posi,
     pub start_char: char,
     pub goal_char: char,
     pub wall_char: char,
@@ -29,18 +35,16 @@ impl Maze {
         maze_vec: &MazeVec,
         start_char: &char,
         goal_char: &char,
-    ) -> Vec<Vec<usize>> {
-        let mut start_posi = vec![];
-        let mut goal_posi = vec![];
+    ) -> Vec<Posi> {
+        let mut start_posi: Posi = Posi::new(-1, -1);
+        let mut goal_posi: Posi = Posi::new(-1, -1);
         for (h, row) in maze_vec.iter().enumerate() {
             for (w, c) in row.iter().enumerate() {
                 if c == start_char {
-                    start_posi.push(h);
-                    start_posi.push(w);
+                    start_posi = Posi::new(h as i64, w as i64);
                 }
                 if c == goal_char {
-                    goal_posi.push(h);
-                    goal_posi.push(w);
+                    goal_posi = Posi::new(h as i64, w as i64);
                 }
             }
         }
@@ -49,14 +53,26 @@ impl Maze {
     pub fn new(maze_vec: MazeVec, start_char: char, goal_char: char, wall_char: char) -> Self {
         let posi = Maze::start_goal_position(&maze_vec, &start_char, &goal_char);
         Self {
-            width: maze_vec[0].len(),
-            height: maze_vec.len(),
-            start: posi[0].clone(),
-            goal: posi[1].clone(),
+            width: maze_vec[0].len() as i64,
+            height: maze_vec.len() as i64,
+            start_posi: posi[0],
+            goal_posi: posi[1],
             start_char,
             goal_char,
             wall_char,
             maze_vec,
+        }
+    }
+
+    pub fn is_enabled_posi(&self, posi: &Posi) -> bool {
+        if posi.row < 0 || posi.col < 0 {
+            false
+        } else if self.width <= posi.col || self.height <= posi.row {
+            false
+        } else if self.maze_vec[posi.row as usize][posi.col as usize] == self.wall_char {
+            false
+        } else {
+            true
         }
     }
 }
