@@ -1,3 +1,6 @@
+pub mod bfs;
+pub mod dfs;
+
 #[derive(Debug)]
 pub struct Graph {
     pub vertices: Vec<Vec<usize>>,
