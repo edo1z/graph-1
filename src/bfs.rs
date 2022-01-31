@@ -3,7 +3,7 @@ use std::collections::VecDeque;
 
 pub trait Bfs {
     fn bfs(&self) -> (Vec<i32>, Vec<i32>);
-    fn bfs_route(&self, prev:&Vec<i32>) -> VecDeque<usize>;
+    fn bfs_route(&self, prev: &Vec<i32>) -> VecDeque<usize>;
 }
 impl Bfs for Graph {
     fn bfs(&self) -> (Vec<i32>, Vec<i32>) {
@@ -25,12 +25,14 @@ impl Bfs for Graph {
         return (dist, prev);
     }
 
-    fn bfs_route(&self, prev:&Vec<i32>) -> VecDeque<usize> {
-        let mut idx = prev.len()-1;
-        let mut route:VecDeque<usize> = VecDeque::from([idx]);
+    fn bfs_route(&self, prev: &Vec<i32>) -> VecDeque<usize> {
+        let mut idx = prev.len() - 1;
+        let mut route: VecDeque<usize> = VecDeque::from([idx]);
         loop {
             let next = prev[idx];
-            if next < 0 {break;}
+            if next < 0 {
+                break;
+            }
             route.push_front(next as usize);
             idx = next as usize;
         }
@@ -67,5 +69,5 @@ fn test_bfs_route() {
     ];
     let graph = Graph { vertices };
     let (_dist, prev) = graph.bfs();
-    assert_eq!(VecDeque::from([0,2,5]), graph.bfs_route(&prev));
+    assert_eq!(VecDeque::from([0, 2, 5]), graph.bfs_route(&prev));
 }
