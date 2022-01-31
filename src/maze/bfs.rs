@@ -6,9 +6,9 @@ use std::collections::VecDeque;
 
 pub trait Bfs {
     fn bfs(&self) -> (Dist, Prev);
-    fn bfs_dist_map(&self, dist:&Dist) -> String;
+    fn bfs_dist_map(&self, dist: &Dist) -> String;
     fn bfs_best_route(&self, prev: &Prev) -> VecDeque<Posi>;
-    fn bfs_best_route_map(&self, routes:&VecDeque<Posi>) -> String;
+    fn bfs_best_route_map(&self, route: &VecDeque<Posi>) -> String;
 }
 impl Bfs for Maze {
     fn bfs(&self) -> (Dist, Prev) {
@@ -29,17 +29,17 @@ impl Bfs for Maze {
         (dist, prev)
     }
 
-    fn bfs_dist_map(&self, dist:&Dist) -> String {
+    fn bfs_dist_map(&self, dist: &Dist) -> String {
         let max_len = dist.get(&self.goal_posi).to_string().len();
         let mut dist_map = String::from("");
         for (row, row_val) in self.maze_vec.iter().enumerate() {
             for (col, &c) in row_val.iter().enumerate() {
                 if c != self.wall_char {
                     let dist = dist.get(&Posi::new(row as i64, col as i64));
-                    let str = &format!("{dist:0max_len$} | ", dist=dist, max_len=max_len);
+                    let str = &format!("{dist:0max_len$} | ", dist = dist, max_len = max_len);
                     dist_map.push_str(str);
                 } else {
-                    let str = &format!("{mark:^max_len$} | ", mark=c, max_len=max_len);
+                    let str = &format!("{mark:^max_len$} | ", mark = c, max_len = max_len);
                     dist_map.push_str(str);
                 }
             }
@@ -62,7 +62,7 @@ impl Bfs for Maze {
         route
     }
 
-    fn bfs_best_route_map(&self, routes:&VecDeque<Posi>) -> String {
+    fn bfs_best_route_map(&self, routes: &VecDeque<Posi>) -> String {
         let mut route_map_vec = vec![vec![' '; self.width as usize]; self.height as usize];
         let mut route_map = String::from("");
         for posi in routes.iter() {
@@ -104,7 +104,6 @@ mod tests {
 00 | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 
 "#;
         assert_eq!(dist_map, ans.to_string());
-
     }
 
     #[test]

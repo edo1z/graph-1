@@ -1,10 +1,23 @@
-use graph::graph::{bfs::Bfs, dfs::Dfs, Graph};
+use graph::maze::{bfs::Bfs, Maze};
 
 fn main() {
-    let vertices_num = 6;
-    let pairs = vec![(1, 2), (1, 3), (2, 4), (2, 5), (3, 4), (4, 6), (5, 6)];
-    let graph = Graph::new(vertices_num, &pairs);
-    println!("{:?}", graph.vertices);
-    println!("DFS => {}", if graph.dfs() { "Yes" } else { "No" });
-    println!("BFS => {:?}", graph.bfs());
+    let maze_str = r#"
+        .#....#G
+        .#.#....
+        ...#.##.
+        #.##...#
+        ...###.#
+        .#.....#
+        ...#.#..
+        S.......
+    "#
+    .to_string();
+    let maze_vec = Maze::maze_vec_from_string(maze_str);
+    let maze = Maze::new(maze_vec, 'S', 'G', '#');
+    let (dist, prev) = maze.bfs();
+    let dist_map = maze.bfs_dist_map(&dist);
+    let route = maze.bfs_best_route(&prev);
+    let route_map = maze.bfs_best_route_map(&route);
+    println!("{dist_map}");
+    println!("{route_map}");
 }

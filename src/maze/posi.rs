@@ -1,11 +1,11 @@
 #[derive(Debug, Clone, Copy)]
 pub struct Posi {
     pub row: i64,
-    pub col: i64
+    pub col: i64,
 }
 impl Posi {
-    pub fn new(row:i64, col:i64) -> Self {
-        Self {row, col}
+    pub fn new(row: i64, col: i64) -> Self {
+        Self { row, col }
     }
     pub fn up(&self) -> Posi {
         Posi::new(self.row + 1, self.col)
